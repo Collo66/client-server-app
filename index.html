@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client-Server Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 40px 15px;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #0002;
+        }
+        button {
+            background: #1769aa;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Client-Server Application</h1>
+        <p>Click the button to communicate with the server.</p>
+        <button onclick="contactServer()">Contact Server</button>
+        <div id="result">Waiting for server response...</div>
+    </div><script>
+    async function contactServer() {
+        const result = document.getElementById('result');
+        result.textContent = 'Contacting server...';
+
+        try {
+            const response = await fetch('/api/message');
+            const data = await response.json();
+
+            result.innerHTML = `
+                <h3>${data.message}</h3>
+                <p>Status: ${data.status}</p>
+                <p>Server time: ${data.time}</p>
+            `;
+        } catch (error) {
+            result.textContent = 'Unable to contact the server.';
+        }
+    }
+</script>
+
+</body>
+</html>
